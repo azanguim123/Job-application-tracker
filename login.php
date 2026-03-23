@@ -9,11 +9,6 @@ session_start();
 // Initialiser le tableau d'erreur
  $errors = [];
 
- var_dump($password);
-var_dump($user['password']);
-var_dump(password_verify($password, $user['password']));
-var_dump($_POST);
-
  // Verifier si la request est de type POST
  if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     //Recuperer et nettoyer les donnees du formulaire
