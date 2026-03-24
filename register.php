@@ -1,6 +1,6 @@
 <?php
 // Démarrer la session
-session_start();
+//session_start();
 
 // Inclure le fichier de configuration PDO
 require_once 'config/database.php';

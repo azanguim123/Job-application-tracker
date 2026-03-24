@@ -5,6 +5,11 @@ require 'database.php';
 // Demarrer la session 
 session_start();
 
+// Verifier si l'utilisateur est connecte
+if(!isset($_SESSION['id'])){
+    header("Location: dashboard.php");
+}
+
 // Initialiser le tableau d'erreurs
 $errors = [];
 
@@ -65,8 +70,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			$errors[] = "Erreur lors de l'enregistrement : ". $e->getMessage();
 		}
 	}
-
-
+  
 ?>
 
 
