@@ -1,14 +1,21 @@
 <?php
-// Inclure le fichier de connexion a la base d donnees
-require 'database.php';
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 // Demarrer la session 
 session_start();
 
+// Inclure le fichier de connexion a la base d donnees
+require_once 'config/database.php';
+
 // Verifier si l'utilisateur est connecte
-if(!isset($_SESSION['id'])){
+
+if(!isset($_SESSION['user_id'])){
     header("Location: dashboard.php");
+	exit();
 }
+$user_id = $_SESSION['user_id'];
 
 // Initialiser le tableau d'erreurs
 $errors = [];
@@ -39,20 +46,21 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	if (empty($application_date)) {
 		$errors[] = "La date de candidature est obligatoire.";
 	}
-}
+
 
 // Si aucune erreur, inserer les donnees en base de donnees
 
 	if (empty($errors)) {
 		try {
 			// Preparer la requete SQL
-			$stmt = $pdo->("
+			$stmt = $pdo->prepare("
 				INSERT INTO applications 
-				(company_name, job_title, location, status, application_date, notes)
-				VALUES (:company_name, :job_title, :location, :status, :application_date, :notes)
-				")
+				(user_id, company_name, job_title, location, status, application_date, notes)
+				VALUES (:user_id, :company_name, :job_title, :location, :status, :application_date, :notes)
+				");
 
 			// Lier les parametres
+			$stmt->bindParam(':user_id', $user_id);
 			$stmt->bindParam(':company_name', $company_name);
 			$stmt->bindParam(':job_title', $job_title);
 			$stmt->bindParam(':location', $location);
@@ -64,12 +72,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			$stmt->execute();
 
 			// Rediriger vers une page de confirmation ou de liste des candidatures
-			header("Location: applications.php");
+			header("Location: dashboard.php");
 			exit();
 		} catch (PDOException $e) {
 			$errors[] = "Erreur lors de l'enregistrement : ". $e->getMessage();
 		}
 	}
+}
   
 ?>
 
@@ -79,7 +88,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 <head>
     <meta charset = "UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <titre> Nouvelle Candidature </title>
+    <title> Nouvelle Candidature </title>
 
     <style>
     	
@@ -151,13 +160,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         <h1>Ajouter une Candidature</h1>
 
         <!-- Afficher les erreurs (si elle existent) -->
-        <? php if(!empty($errors)): ?>
+        <?php if(!empty($errors)): ?>
         	<div class="errors">
-        		<?php foreach ($errors as $error); ?> 
+        		<?php foreach ($errors as $error): ?> 
         			<p><?php echo htmlspecialchars($error); ?></p>
-        		<? php endforeach; ?>
+        		<?php endforeach; ?>
         	</div>
-        <? endif; ?>
+        <?php endif; ?>
 
         <!-- Formulaire de candidature -->
         <form method="POST" action="create_application.php">
@@ -171,7 +180,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         	</div>	
         	<div class="form-group">
         		<label for="location"> Localisation :</label>
-        		<input type="text" id="Localisation" name="location" required>
+        		<input type="text" id="location" name="location" required>
         	</div>
         	<div class="form-group">
         		<label for="status"> Statut :</label>
@@ -182,6 +191,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         			<option value="Rejected">Rejected</option>
         			<option value="Accepted">Accepted</option>	
         		</select>
+        	</div>
+			<div class="form-group">
+        		<label for="application_date">Date de candidature :</label>
+        		<input type="date" id="application_date" name="application_date" required>	
         	</div>
         	<div class="form-group">
         		<label for="notes">Notes :</label>
@@ -195,18 +208,3 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 </body>
 
  </html>      		
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        			

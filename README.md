@@ -41,9 +41,20 @@ A web application built with PHP and MySQL to manage and track job applications.
 5. Configure the database connection in:  `config/database.php`
 6. Run in browser: `http://localhost/projets/job-tracker/`
 
+### Authentication
+- User registration with validation
+- Password hashing for security
+- Login system with session management
+- Protected dashboard
+- Logout functionality
+
+### Job Applications Management
+- Add new job applications
+- Store application details (company, job title, location, status, date, notes)
+- Link applications to authenticated user
+
 ## Future Improvements
 
-- Add job application CRUD (create, read, update, delete)
 - Search and filter applications
 - Dashboard statistics
 - Improve UI/UX
