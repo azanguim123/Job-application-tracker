@@ -5,6 +5,7 @@ A web application built with PHP and MySQL to manage and track job applications.
 ## Features
 
 ### Authentication
+
 - User registration with validation
 - Password hashing for security
 - Login system with session management
@@ -28,6 +29,7 @@ A web application built with PHP and MySQL to manage and track job applications.
 - assets/ → CSS and JS files
 
 ## Installation
+
 1. Clone the repository: git clone https://github.com/azanguim123/Job-application-tracker.git
 2. Move the project to XAMPP:  C:\xampp\htdocs\projects/job-tracker
 3. Create the database:
@@ -42,6 +44,7 @@ A web application built with PHP and MySQL to manage and track job applications.
 6. Run in browser: `http://localhost/projets/job-tracker/`
 
 ### Authentication
+
 - User registration with validation
 - Password hashing for security
 - Login system with session management
@@ -49,15 +52,31 @@ A web application built with PHP and MySQL to manage and track job applications.
 - Logout functionality
 
 ### Job Applications Management
+
 - Add new job applications
 - Store application details (company, job title, location, status, date, notes)
-- Link applications to authenticated user
+- Display all applications in a dashboard
+- Application are linked to the authenticated user
+
+## Dashboard
+
+The dashboard allows users to: 
+- View all their job applications in a table
+- See details such as company, position, status, and application date
+- Manage their job search efficiently
 
 ## Future Improvements
 
-- Search and filter applications
-- Dashboard statistics
-- Improve UI/UX
+- Edit job applications
+- Delete job applications
+- Add search and filtering
+- Improve UI/UX design
+- Add statistics (e.g. number of applications, success rate)
+
+## Project Status
+
+This project is currently under development.
+Core features such as authentication and application tracking are implemented.
 
 ## Author
 
