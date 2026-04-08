@@ -115,6 +115,7 @@ try {
                         <th>Statut</th>
                         <th>Date de Candidature</th>
                         <th>Notes</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -127,6 +128,9 @@ try {
                             <td><?php echo htmlspecialchars($app['application_date']); ?></td>
                             <td><?php echo htmlspecialchars($app['notes']); ?></td>
                         </tr>
+                        <a href="delete_application.php?id=<?php echo $app['id']; ?>"
+                            onclick="return confirm('Are you sure?')"> Supprimer 
+                        </a>
                     <?php endforeach; ?>
                 </tbody>
             </table>
