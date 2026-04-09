@@ -19,7 +19,7 @@ $user_email = htmlspecialchars($_SESSION['user_email'] ?? '');
 // Recuperer les candidatures de l'utilisateur connecte
 try {
     $stmt = $pdo->prepare("
-    SELECT company_name, job_title, location, status, application_date, notes
+    SELECT id, company_name, job_title, location, status, application_date, notes
     FROM applications
     WHERE user_id = :user_id
     ORDER BY  application_date DESC
@@ -127,10 +127,15 @@ try {
                             <td><?php echo htmlspecialchars($app['status']); ?></td>
                             <td><?php echo htmlspecialchars($app['application_date']); ?></td>
                             <td><?php echo htmlspecialchars($app['notes']); ?></td>
+                            <td>
+                                <a href="delete_application.php?id=<?php echo $app['id']; ?>" 
+                                onclick="return confirm('Are you sure?')"> 
+                                Supprimer 
+                                </a>
+                            </td>
+                            <td><?php echo $app['id']; ?></td>
                         </tr>
-                        <a href="delete_application.php?id=<?php echo $app['id']; ?>"
-                            onclick="return confirm('Are you sure?')"> Supprimer 
-                        </a>
+                        
                     <?php endforeach; ?>
                 </tbody>
             </table>
