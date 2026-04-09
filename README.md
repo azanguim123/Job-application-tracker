@@ -12,20 +12,23 @@ A web application built with PHP and MySQL to manage and track job applications.
 - Protected dashboard (accessible only when logged in)
 - Logout functionality
 
-## Technologies
+## Technologies Used 
 
 - PHP (PDO)
 - MySQL
 - HTML / CSS
 - Git & GitHub
+- Apache (XAMPP)
 
 ## Project Structure
 
 - register.php → user registration
 - login.php → user authentication
-- dashboard.php → protected user page
+- dashboard.php → Display applications
+- create_application.php → Add application
+- delete_appliation.php → Delete application
 - logout.php → session destruction
-- config/database.php → database connection
+- config/database.php → Database connection
 - assets/ → CSS and JS files
 
 ## Installation
@@ -48,27 +51,27 @@ A web application built with PHP and MySQL to manage and track job applications.
 - User registration with validation
 - Password hashing for security
 - Login system with session management
-- Protected dashboard
+- Protected dashboard (only accessible when logged in)
 - Logout functionality
 
 ### Job Applications Management
 
-- Add new job applications
+- Add new job applications 
 - Store application details (company, job title, location, status, date, notes)
-- Display all applications in a dashboard
-- Application are linked to the authenticated user
+- View all applications in a dashboard
+- Delete applications
+-  Each application are linked to the authenticated user
 
 ## Dashboard
 
 The dashboard allows users to: 
 - View all their job applications in a table
-- See details such as company, position, status, and application date
+- See details such as company, job title, location, status, and application date, and notes
 - Manage their job search efficiently
 
 ## Future Improvements
 
-- Edit job applications
-- Delete job applications
+- Edit job applications (UPDATE)
 - Add search and filtering
 - Improve UI/UX design
 - Add statistics (e.g. number of applications, success rate)
