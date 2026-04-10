@@ -130,7 +130,10 @@ try {
                             <td>
                                 <a href="delete_application.php?id=<?php echo $app['id']; ?>" 
                                 onclick="return confirm('Are you sure?')"> 
-                                Supprimer 
+                                    Supprimer 
+                                </a>
+                                <a href="edit_application.php?=<?php echo $app['id']; ?>">
+                                    Modifier
                                 </a>
                             </td>
                             <td><?php echo $app['id']; ?></td>

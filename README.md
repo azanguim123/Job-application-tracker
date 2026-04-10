@@ -59,6 +59,7 @@ A web application built with PHP and MySQL to manage and track job applications.
 - Add new job applications 
 - Store application details (company, job title, location, status, date, notes)
 - View all applications in a dashboard
+- Edit job application
 - Delete applications
 -  Each application are linked to the authenticated user
 
