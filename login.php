@@ -36,10 +36,6 @@ session_start();
 
             $user = $stmt->fetch();
 
-            echo "<pre>";
-            print_r ($user);
-            echo "</pre>";
-
             //Verifier si l'utilisateur existe et si le mot de passe est correct
             if ($user && password_verify($password, $user['password'])){
                 // Creer les variables de session 

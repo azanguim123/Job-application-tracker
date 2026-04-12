@@ -132,7 +132,7 @@ try {
                                 onclick="return confirm('Are you sure?')"> 
                                     Supprimer 
                                 </a>
-                                <a href="edit_application.php?=<?php echo $app['id']; ?>">
+                                <a href="edit_application.php?id=<?php echo $app['id']; ?>">
                                     Modifier
                                 </a>
                             </td>
