@@ -9,7 +9,7 @@ require_once 'config/database.php';
 
 // Verifie si user connecter
 if (!isset($_SESSION['user_id'])){
-    hearder("Location: login.php");
+    header("Location: login.php");
     exit();
 }
 // recuperation ID
@@ -19,12 +19,11 @@ if (!isset($_GET['id'])){
 $id = $_GET['id'];
 $user_id = $_SESSION['user_id'];
 
-// Recuperer la candidature (GET)
+// Recuperer la candidature (GET) et empecher modification autres utilisateur
 $stmt =  $pdo->prepare("
     SELECT *FROM applications 
-    WHERE id = :id AND user_id = :user_id  //empeche modification des autres utilisateur
+    WHERE id = :id AND user_id = :user_id 
 ");
-
 $stmt->execute([
     'id' => $id,
     'user_id' => $user_id
@@ -32,7 +31,7 @@ $stmt->execute([
 
 $application = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if (!application){
+if (!$application){
     die("Cadidature introuvable");
 }
 
@@ -43,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD']=== 'POST'){
     $job_title    = $_POST['job_title'];
     $location     = $_POST['location'];
     $status       = $_POST['status'];
-    $application_date = ['application_date'];
+    $application_date =$_POST['application_date'];
     $notes         = $_POST['notes'];
 
     // Actualiser le formulaire avec les nouvelles informations
@@ -54,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD']=== 'POST'){
             location = :location,
             status = :status,
             application_date = :application_date, 
-            notes = :notes,
+            notes = :notes
         WHERE id = :id AND user_id = :user_id
     ");
 
