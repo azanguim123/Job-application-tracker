@@ -88,76 +88,247 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 <head>
     <meta charset = "UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Nouvelle Candidature </title>
+    <title> Nouvelle Candidature - Suivi de Candidatures </title>
 
     <style>
-    	
-    	body {
-    		font-family: Arial, sans-serif;
-    		background-color: #f4f4f4;
-    		display: flex;
-    		justify-content: center;
-    		align-items: center;
-    		min-height: 100vh;
-    		margin: 0;
-    	}
-    	.form-container {
-    		background: #fff;
-    		padding: 20px;
-    		border-radius: 5px;
-    		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    		width: 500px;
-    	}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    	.form-container h1 {
-    		text-align: center;
-    		margin-bottom: 20px;
-    	}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+        }
 
-    	.form-group {
-    		margin-bottom: 15px;
-    	}
-    	.form-group label {
-    		display: block;
-    		margin-bottom: 5px;
-    		font-weight: bold;
-    	}
-    	.form-group input, 
-    	.form-group select,
-    	.form-group textarea {
-    		width: 100%;
-    		padding: 8px;
-    		border: 1px solid #ddd;
-    		border-radius: 4px;
-    		box-sizing: border-box;
-    	}
-    	.form-group textarea{
-    		height: 100px;
-    		resize: vertical;
-    	}
-    	.form-group button {
-    		width: 100%;
-    		padding: 10px;
-    		background-color: #28a745;
-    		color: #fff;
-    		border: none;
-    		border-radius: 4px;
-    		cursor: pointer;
-    	}
-    	.form-group button:hover {
-    		background-color: #218838;
-    	}
-    	.errors {
-    		color: #dc3545;
-    		margin-bottom: 15px;
-    	}
+        /* Effet de particules animées */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%);
+            animation: pulse 4s ease-in-out infinite;
+        }
 
+        body::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
+            animation: pulse 4s ease-in-out infinite reverse;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 650px;
+            padding: 40px;
+            animation: slideIn 0.5s ease-out;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-container h1 {
+            text-align: center;
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.15s; }
+        .form-group:nth-child(3) { animation-delay: 0.2s; }
+        .form-group:nth-child(4) { animation-delay: 0.25s; }
+        .form-group:nth-child(5) { animation-delay: 0.3s; }
+        .form-group:nth-child(6) { animation-delay: 0.35s; }
+        .form-group:nth-child(7) { animation-delay: 0.4s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input, 
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .form-group button:active {
+            transform: translateY(0);
+        }
+
+        .errors {
+            background: #fee;
+            border-left: 4px solid #f44;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            animation: shake 0.5s ease-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .errors p {
+            color: #d32f2f;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .btn-back {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #f0f0f0;
+            color: #333;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .btn-back:hover {
+            background: #e0e0e0;
+            transform: translateX(-5px);
+        }
+
+        .required:after {
+            content: " *";
+            color: #f44;
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 30px 25px;
+            }
+            
+            .form-container h1 {
+                font-size: 28px;
+            }
+            
+            .form-group input, 
+            .form-group select,
+            .form-group textarea,
+            .form-group button {
+                font-size: 14px;
+            }
+        }
     </style>
 
 </head>
 <body>
     <div class= "form-container">
-        <h1>Ajouter une Candidature</h1>
+        <h1>Ajouter une Candidature </h1>
+        <div class="subtitle">Ajoutez une nouvelle candidature à votre suivi</div>
 
         <!-- Afficher les erreurs (si elle existent) -->
         <?php if(!empty($errors)): ?>
@@ -166,24 +337,39 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         			<p><?php echo htmlspecialchars($error); ?></p>
         		<?php endforeach; ?>
         	</div>
+        
         <?php endif; ?>
 
         <!-- Formulaire de candidature -->
         <form method="POST" action="create_application.php">
+            
+            
+            <div class="form-group">
+                <label for="company_name" class="required"> Nom de l'entreprise</label>
+                <input type="text" id="company_name" name="company_name" 
+                       placeholder="Ex: Google Germany"
+                       value="<?php echo htmlspecialchars($_POST['company_name'] ?? ''); ?>"
+                       required>
+            </div>
+            
         	<div class="form-group">
-        		<label for="company_name"> Nom de l'entreprise :</label>
-        		<input type="text" id="company_name" name="company_name" required>
+        		<label for="job_title" class="required"> Poste : </label>
+        		<input type="text" id="job_title" name="job_title"
+                       placeholder="Ex: Développeur PHP Junior"
+                 		value="<?php echo htmlspecialchars($_POST['job_title'] ?? ''); ?>"
+                       required>
         	</div>
+            
         	<div class="form-group">
-        		<label for="job_title"> Poste : </label>
-        		<input type="text" id="job_title" name="job_title" required>
-        	</div>	
-        	<div class="form-group">
-        		<label for="location"> Localisation :</label>
-        		<input type="text" id="location" name="location" required>
+        		<label for="location" class="required"> Localisation :</label>
+        		<input type="text" id="location" name="location" 
+                        placeholder="Ex: `Berlin, Germany"
+                       value="<?php echo htmlspecialchars($_POST['location'] ?? ''); ?>"
+                       required>
         	</div>
+            
         	<div class="form-group">
-        		<label for="status"> Statut :</label>
+        		<label for="status" class="required"> Statut :</label>
         		<select id="status" name="status" required>
         			<option value=""> -- Selectionnez un status --></option>
         			<option value="Applied">Applied</option>
@@ -192,18 +378,28 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         			<option value="Accepted">Accepted</option>	
         		</select>
         	</div>
+            
 			<div class="form-group">
-        		<label for="application_date">Date de candidature :</label>
-        		<input type="date" id="application_date" name="application_date" required>	
+        		<label for="application_date" class="required">Date de candidature :</label>
+        		<input type="date" id="application_date" name="application_date" 
+                        value="<?php echo htmlspecialchars($_POST['application_date'] ?? date('Y-m-d')); ?>"
+                       required>	
         	</div>
+            
         	<div class="form-group">
         		<label for="notes">Notes :</label>
-        		<textarea id="notes" name="notes"></textarea>	
+        		<textarea id="notes" name="notes"
+                          placeholder="Ajoutez des notes, remarques ou informations complémentaires..."> <?php echo htmlspecialchars($_POST['notes'] ?? ''); ?></textarea>	
         	</div>
+            
         	<div class="form-group">
-        		<button type="submit">Enregistrer</button>	
+        		<button type="submit">Enregistrer la candidature</button>	
         	</div>
+            
+            <a href="dashboard.php" class="btn-back">← Retour au tableau de bord</a>
+            
        </form>
+                
     </div>
 </body>
 

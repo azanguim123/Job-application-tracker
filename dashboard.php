@@ -260,7 +260,7 @@ try {
         <?php endif; ?>
     </div>
                     
-    // Passage des donnee PHP vers JS
+    <!-- Passage des donnee PHP vers JS -->
     <script>
         const data = {
             labels: ['Applied', 'Interview', 'Rejected', 'Accepted'],
