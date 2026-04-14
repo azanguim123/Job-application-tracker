@@ -86,6 +86,9 @@ The dashboard allows users to:
 ## Screenshots
 ![alt text](image.png)
 
+## Live Demo
+https://jobapplication.infinityfreeapp.com/
+
 ## Future Improvements
 
 - Deploy the application online
