@@ -18,14 +18,29 @@ $user_email = htmlspecialchars($_SESSION['user_email'] ?? '');
 
 // Recuperer les candidatures de l'utilisateur connecte
 try {
-    $stmt = $pdo->prepare("
+    $sql = "
     SELECT id, company_name, job_title, location, status, application_date, notes
     FROM applications
     WHERE user_id = :user_id
-    ORDER BY  application_date DESC
-    ");
-    $stmt->bindParam(':user_id', $user_id);
-    $stmt->execute();
+    ";
+
+    //  FILTRE 
+    if(!empty($_GET['status'])){
+        $sql .= " AND status = :status";
+    }
+
+    // Tri
+    $sql .= " ORDER BY application_date DESC";
+
+    $stmt = $pdo->prepare($sql);
+
+    $params = ['user_id' => $user_id];
+
+    if (!empty($_GET['status'])) {
+        $params['status'] = $_GET['status'];
+    }
+
+    $stmt->execute($params);
     $applications = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e){
     die("Erreur lors de la recuperation des candidatures: " .$e->getMessage());
@@ -40,10 +55,10 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tableau de bord</title>
     <style>
+
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
+            margin: 20px;
             background-color: #f8f9fa;
         }
         .container {
@@ -55,6 +70,7 @@ try {
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         h1 {
+            color: #333;
             text-align: center;
             margin-bottom: 20px;
         }
@@ -63,6 +79,25 @@ try {
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+
+        /* BUTTONS */
+        .btn-delete{
+            color: white;
+            background-color: red;
+            padding: 5px 8px;
+            border-radius: 4px;
+            text-decoration:none;
+        }
+        .btn-edit{
+            color: white;
+            background-color: green;
+            padding: 5px 8px;
+            border-radius: 4px;
+            text-decoration:none;
         }
         .btn {
             display: inline-block;
@@ -78,6 +113,8 @@ try {
         table {
             width: 100%;
             border-collapse: collapse;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
             margin-top: 20px;
         }
         th, td {
@@ -94,13 +131,28 @@ try {
     <div class="container">
         <div class="header">
             <h1>Mes Candidatures</h1>
+
             <div>
-                <p>Bonjour, <?php echo $user_nom; ?></p>
-                <a href="logout.php" class="btn">Se déconnecter</a>
+                <p>Bonjour, <?php echo $user_full_name; ?> 👋</p>
+                <a class="btn" href="logout.php" >Se déconnecter</a>
             </div>
         </div>
 
-        <a href="create_application.php" class="btn">Ajouter une candidature</a>
+        <!--Filtre de candidatures -->
+        <form method="GET">
+
+            <select name="status"> 
+                <option value="">Tous</option>
+                <option value="Applied" <?php if($_GET['status'] ?? '' == 'Applied') echo 'selected'>Applied</option>
+                <option value="Interview">Interview</option>
+                <option value="Rejected">Rejected</option>
+            </select>
+            <button type="submit">Filtrer</button>
+        </form>
+
+        <br>
+            <a class="btn" href="create_application.php" >Ajouter une candidature</a>
+        <br><br>
 
         <!-- Tableau des candidatures -->
         <?php if (empty($applications)): ?>
@@ -128,11 +180,11 @@ try {
                             <td><?php echo htmlspecialchars($app['application_date']); ?></td>
                             <td><?php echo htmlspecialchars($app['notes']); ?></td>
                             <td>
-                                <a href="delete_application.php?id=<?php echo $app['id']; ?>" 
+                                <a class="btn-delete" href="delete_application.php?id=<?php echo $app['id']; ?>" 
                                 onclick="return confirm('Are you sure?')"> 
                                     Supprimer 
                                 </a>
-                                <a href="edit_application.php?id=<?php echo $app['id']; ?>">
+                                <a class="btn-edit" href="edit_application.php?id=<?php echo $app['id']; ?>">
                                     Modifier
                                 </a>
                             </td>
