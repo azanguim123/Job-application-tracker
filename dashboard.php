@@ -16,6 +16,26 @@ $user_id = $_SESSION['user_id'];
 $user_full_name = htmlspecialchars($_SESSION['user_fullname'] ?? 'Utilisateur');
 $user_email = htmlspecialchars($_SESSION['user_email'] ?? '');
 
+// Requete stats
+try {
+    $stmt = $pdo->prepare("
+        SELECT 
+            COUNT(*) as total,
+            SUM(status = 'Applied') as applied,
+            SUM(status = 'Interview') as interview,
+            SUM(status = 'Rejected') as rejected,
+            SUM(status = 'Accepted') as accepted
+        FROM applications
+        WHERE user_id = :user_id"
+    );
+        $stmt->execute(['user_id' => $user_id]);
+
+    $stats = $stmt->fetch(PDO::FETCH_ASSOC);
+
+} catch (PDOException $e) {
+die("Erreur stats: " . $e->getMessage());
+}
+
 // Recuperer les candidatures de l'utilisateur connecte
 try {
     $sql = "
@@ -110,6 +130,29 @@ try {
         .btn:hover {
             background-color: #0056b3;
         }
+        .actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .stats {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .card {
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            font-weight: bold;
+        }
+        .card:nth-child(1){background: #333; color: white; }
+        .card:nth-child(2){background: orange; }
+        .card:nth-child(3){background: blue; color:white; }
+        .card:nth-child(4){background: red; color: white; }
+        .card:nth-child(5){background: green; color: white; }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -143,7 +186,7 @@ try {
 
             <select name="status"> 
                 <option value="">Tous</option>
-                <option value="Applied" <?php if($_GET['status'] ?? '' == 'Applied') echo 'selected'>Applied</option>
+                <option value="Applied" <?php if($_GET['status'] ?? '' == 'Applied') echo 'selected'?>> Applied</option>
                 <option value="Interview">Interview</option>
                 <option value="Rejected">Rejected</option>
             </select>
@@ -153,6 +196,16 @@ try {
         <br>
             <a class="btn" href="create_application.php" >Ajouter une candidature</a>
         <br><br>
+
+        <!-- Statistique d'applications -->
+        <div class="stats">
+
+            <div class="card">Total: <?php echo $stats['total']; ?></div>
+            <div class="card">Applied: <?php echo $stats['applied']; ?></div>
+            <div class="card">Interview: <?php echo $stats['interview']; ?></div>
+            <div class="card">Rejected: <?php echo $stats['rejected']; ?></div>
+            <div class="card">Accepted: <?php echo $stats['accepted']; ?></div>
+        </div>
 
         <!-- Tableau des candidatures -->
         <?php if (empty($applications)): ?>
@@ -179,7 +232,7 @@ try {
                             <td><?php echo htmlspecialchars($app['status']); ?></td>
                             <td><?php echo htmlspecialchars($app['application_date']); ?></td>
                             <td><?php echo htmlspecialchars($app['notes']); ?></td>
-                            <td>
+                            <td class="actions">
                                 <a class="btn-delete" href="delete_application.php?id=<?php echo $app['id']; ?>" 
                                 onclick="return confirm('Are you sure?')"> 
                                     Supprimer 
