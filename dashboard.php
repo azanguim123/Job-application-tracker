@@ -73,6 +73,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Tableau de bord</title>
     <style>
 
@@ -140,6 +141,11 @@ try {
             gap: 15px;
             margin-bottom: 20px;
         }
+        .chart-container {
+            width: 400px;
+            max-width: 100%;
+            margin: auto;
+        }
         .card {
             padding: 15px;
             background: white;
@@ -205,6 +211,10 @@ try {
             <div class="card">Interview: <?php echo $stats['interview']; ?></div>
             <div class="card">Rejected: <?php echo $stats['rejected']; ?></div>
             <div class="card">Accepted: <?php echo $stats['accepted']; ?></div>
+            
+        </div>
+        <div class="chart-container"> 
+            <canvas id="myChart" width="400" height="200"></canvas>
         </div>
 
         <!-- Tableau des candidatures -->
@@ -249,5 +259,31 @@ try {
             </table>
         <?php endif; ?>
     </div>
+                    
+    // Passage des donnee PHP vers JS
+    <script>
+        const data = {
+            labels: ['Applied', 'Interview', 'Rejected', 'Accepted'],
+            datasets : [{
+                label: 'Mes candidatures',
+                data: [
+                    <?php echo $stats['applied']; ?>,
+                    <?php echo $stats['interview']; ?>,
+                    <?php echo $stats['rejected']; ?>,
+                    <?php echo $stats['accepted']; ?>,
+                ],
+                boderWidth: 1
+            }]
+        };
+
+        // Creer le graphique
+        const config= {
+            type: 'pie',
+            data: data,
+        };
+        const myChart = new Chart(
+            document.getElementById('myChart'),config
+        );
+    </script>
 </body>
 </html>
