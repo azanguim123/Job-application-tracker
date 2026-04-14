@@ -1,16 +1,19 @@
 # Job Application Tracker
-
-A web application built with PHP and MySQL to manage and track job applications.
+## Description
+This project is a web application that helps users track their jon applications efficiently.
+Users can manage their applications, update their status, and visualize their porgress with a dashboard.
 
 ## Features
 
 ### Authentication
 
-- User registration with validation
-- Password hashing for security
-- Login system with session management
-- Protected dashboard (accessible only when logged in)
-- Logout functionality
+- User authentication (Loging/ Register / Logout )
+- Add, edit, delete job applications
+- View applications in Dashnoard 
+- Status tracking(Applied, Interview, Rejected, Accepted)
+- Statistics dashboard with Chart.js
+- Clean dand responsive design
+- Secure access per user
 
 ## Technologies Used 
 
@@ -19,6 +22,7 @@ A web application built with PHP and MySQL to manage and track job applications.
 - HTML / CSS
 - Git & GitHub
 - Apache (XAMPP)
+- JavaScript (Chart.js)
 
 ## Project Structure
 
@@ -70,12 +74,24 @@ The dashboard allows users to:
 - See details such as company, job title, location, status, and application date, and notes
 - Manage their job search efficiently
 
+## What I learned
+
+- Using PHP with PDO for secure databse access
+- Handling user authentication and sessions
+- Performing CRUD operations(Create, Read, Update, Delete)
+- Building dynamic dashboards
+- Integration Chart.js for data visualization
+- Structuring a full web project
+
+## Screenshots
+![alt text](image.png)
+
 ## Future Improvements
 
-- Edit job applications (UPDATE)
-- Add search and filtering
-- Improve UI/UX design
-- Add statistics (e.g. number of applications, success rate)
+- Deploy the application online
+- Updload CV/documents
+- Email notifications
+- Mobile optimization improvements
 
 ## Project Status
 
@@ -85,3 +101,5 @@ Core features such as authentication and application tracking are implemented.
 ## Author
 
 Azanguim Ndongmo Larry Nelson
+ Master's Student in Computer Science
+ Passionate about Web Development and Software Engineering
