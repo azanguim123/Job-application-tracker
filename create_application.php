@@ -91,7 +91,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     <title> Nouvelle Candidature - Suivi de Candidatures </title>
 
     <style>
-        * {
+                * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -104,28 +104,30 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 40px 20px;
+            padding: 20px;
             position: relative;
-            overflow: hidden;
+            overflow-y: auto; /* Permet le scroll */
         }
 
         /* Effet de particules animées */
         body::before {
             content: '';
-            position: absolute;
+            position: fixed;
             width: 100%;
             height: 100%;
             background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%);
             animation: pulse 4s ease-in-out infinite;
+            pointer-events: none;
         }
 
         body::after {
             content: '';
-            position: absolute;
+            position: fixed;
             width: 100%;
             height: 100%;
             background: radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
             animation: pulse 4s ease-in-out infinite reverse;
+            pointer-events: none;
         }
 
         @keyframes pulse {
@@ -139,10 +141,32 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             width: 100%;
             max-width: 650px;
+            max-height: 95vh;
+            overflow-y: auto;
+            overflow-x: hidden;
             padding: 40px;
             animation: slideIn 0.5s ease-out;
             position: relative;
             z-index: 1;
+        }
+
+        /* Personnalisation du scrollbar */
+        .form-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .form-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .form-container::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+
+        .form-container::-webkit-scrollbar-thumb:hover {
+            background: #764ba2;
         }
 
         @keyframes slideIn {
@@ -159,7 +183,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         .form-container h1 {
             text-align: center;
             color: #333;
-            font-size: 32px;
+            font-size: 28px;
             margin-bottom: 10px;
             font-weight: 600;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -189,7 +213,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         .form-group:nth-child(4) { animation-delay: 0.25s; }
         .form-group:nth-child(5) { animation-delay: 0.3s; }
         .form-group:nth-child(6) { animation-delay: 0.35s; }
-        .form-group:nth-child(7) { animation-delay: 0.4s; }
 
         @keyframes fadeInUp {
             from {
@@ -207,7 +230,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             margin-bottom: 8px;
             font-weight: 600;
             color: #333;
-            font-size: 14px;
+            font-size: 13px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -219,7 +242,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             padding: 12px 15px;
             border: 2px solid #e0e0e0;
             border-radius: 10px;
-            font-size: 16px;
+            font-size: 15px;
             transition: all 0.3s ease;
             font-family: inherit;
         }
@@ -283,11 +306,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         .btn-back {
             display: inline-block;
             margin-top: 15px;
-            padding: 10px 20px;
+            padding: 12px 20px;
             background: #f0f0f0;
             color: #333;
             text-decoration: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 14px;
             font-weight: 500;
             transition: all 0.3s ease;
@@ -306,13 +329,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             color: #f44;
         }
 
+        /* Responsive */
         @media (max-width: 768px) {
             .form-container {
-                padding: 30px 25px;
+                padding: 25px 20px;
+                max-height: 90vh;
             }
             
             .form-container h1 {
-                font-size: 28px;
+                font-size: 24px;
             }
             
             .form-group input, 
@@ -320,13 +345,24 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             .form-group textarea,
             .form-group button {
                 font-size: 14px;
+                padding: 10px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 20px 15px;
+            }
+            
+            .form-group {
+                margin-bottom: 18px;
             }
         }
     </style>
 
 </head>
 <body>
-    <div class= "form-container">
+    <div class="form-container">
         <h1>Ajouter une Candidature </h1>
         <div class="subtitle">Ajoutez une nouvelle candidature à votre suivi</div>
 
@@ -387,16 +423,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         	</div>
             
         	<div class="form-group">
-        		<label for="notes">Notes :</label>
-        		<textarea id="notes" name="notes"
-                          placeholder="Ajoutez des notes, remarques ou informations complémentaires..."> <?php echo htmlspecialchars($_POST['notes'] ?? ''); ?></textarea>	
-        	</div>
+                <label for="notes"> Notes supplémentaires</label>
+                <textarea id="notes" name="notes" 
+                          placeholder="Ajoutez des notes, remarques ou informations complémentaires..."><?php echo htmlspecialchars($_POST['notes'] ?? ''); ?></textarea>
+            </div>
             
         	<div class="form-group">
         		<button type="submit">Enregistrer la candidature</button>	
         	</div>
             
-            <a href="dashboard.php" class="btn-back">← Retour au tableau de bord</a>
+            <a href="dashboard.php" class="btn-back"> Retour au tableau de bord</a>
             
        </form>
                 
