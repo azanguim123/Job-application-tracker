@@ -87,7 +87,7 @@ The dashboard allows users to:
 ![alt text](image.png)
 
 ## Live Demo
-https://jobapplication.infinityfreeapp.com/
+https://jobapplication.infinityfreeapp.com/login.php
 
 ## Future Improvements
 
